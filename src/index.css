@@ -1,0 +1,60 @@
+body {
+  background: #f4f6f9;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #1f2937, #111827);
+  color: white;
+}
+
+.sidebar h4 {
+  font-weight: 600;
+}
+
+.sidebar .nav-link {
+  color: #cbd5e1;
+  transition: 0.3s;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.sidebar .nav-link:hover {
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+/* Cards */
+.card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  transition: 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* KPI Styling */
+.kpi-card h3 {
+  font-weight: 700;
+}
+
+.kpi-danger { color: #ef4444; }
+.kpi-primary { color: #3b82f6; }
+.kpi-success { color: #10b981; }
+.kpi-warning { color: #f59e0b; }
+
+/* Stress panel */
+.stress-panel {
+  background: linear-gradient(135deg, #fee2e2, #fecaca);
+}
+
+/* Buttons */
+.btn-modern {
+  border-radius: 10px;
+  padding: 8px 18px;
+}
