@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 
-function MicRecorder() {
+function MicRecorder({ onRecordingStop }) {  // CHANGE: accept onRecordingStop prop
   const [recording, setRecording] = useState(false);
   const [audioURL, setAudioURL] = useState(null);
 
@@ -14,7 +14,6 @@ function MicRecorder() {
   const startRecording = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
-    // Media Recorder
     const mediaRecorder = new MediaRecorder(stream);
     mediaRecorderRef.current = mediaRecorder;
 
@@ -27,11 +26,13 @@ function MicRecorder() {
       const url = URL.createObjectURL(blob);
       setAudioURL(url);
       chunksRef.current = [];
+
+      // CHANGE: tell StressManagement that recording has stopped
+      if (onRecordingStop) onRecordingStop();
     };
 
     mediaRecorder.start();
 
-    // Audio Context for waveform
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const analyser = audioContext.createAnalyser();
     const microphone = audioContext.createMediaStreamSource(stream);
@@ -47,10 +48,14 @@ function MicRecorder() {
   };
 
   const stopRecording = () => {
-    mediaRecorderRef.current.stop();
+    mediaRecorderRef.current.stop();       // this triggers mediaRecorder.onstop above
     cancelAnimationFrame(animationRef.current);
     audioContextRef.current.close();
     setRecording(false);
+
+    // NOTE: do NOT call onRecordingStop() here
+    // it's already called inside mediaRecorder.onstop above
+    // calling it here too would trigger it twice
   };
 
   const drawWaveform = () => {
@@ -121,7 +126,7 @@ function MicRecorder() {
         </button>
       ) : (
         <button className="btn btn-secondary me-2" onClick={stopRecording}>
-          Stop Recording
+          ⏹ Stop Recording
         </button>
       )}
 
